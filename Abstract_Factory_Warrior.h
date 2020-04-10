@@ -23,3 +23,5 @@ public:
     virtual int getSide() = 0;
     virtual void usingWeapon(Warrior &enemy) = 0;
 };
+
+#endif //UNIT_TYPE_H
