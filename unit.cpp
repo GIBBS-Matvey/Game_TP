@@ -1,5 +1,5 @@
-#include "unit_type.h"
- 
+#include "unit.h"
+
 class Unit {
 private:
     Warrior* unit_configuration;
