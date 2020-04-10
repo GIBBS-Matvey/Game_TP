@@ -1,6 +1,7 @@
 #ifndef UNIT_TYPE_H
 #define UNIT_TYPE_H
-#include <vector>
+#include "Factory_Warrior.h"
+#include "Factory_Equipment.h"
  
 class Unit {
 private:
