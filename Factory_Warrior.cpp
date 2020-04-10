@@ -1,5 +1,5 @@
-#include "unit_type.h"
-#include <vector>
+#include "Factory_Warrior.h"
+#include "Factory_Equipment.h"
  
 void Horse_Warrior::getType() {
     this->type = HORSE_WARRIOR;
@@ -13,7 +13,13 @@ void Horse_Warrior::getCost() {
 void Horse_Warrior::getForce() {
     this->force = HORSE_WARRIOR_F;
 }
- 
+void Horse_Warrior::usingWeapon(Warrior &enemy) {
+    Spear spear;
+    spear.getDamage();
+    spear.getWeight();
+    enemy.health -= spear.damage;
+}
+
 void Infantry_Warrior::getType() {
     this->type = INFANTRY_WARRIOR;
 }
@@ -25,6 +31,12 @@ void Infantry_Warrior::getCost() {
 }
 void Infantry_Warrior::getForce() {
     this->force = INFANTRY_WARRIOR_F;
+}
+void Infantry_Warrior::usingWeapon(Warrior &enemy) {
+    Sword sword;
+    sword.getDamage();
+    sword.getWeight();
+    enemy.health -= sword.damage;
 }
  
 void Ninja_Warrior::getType() {
@@ -39,23 +51,10 @@ void Ninja_Warrior::getCost() {
 void Ninja_Warrior::getForce() {
     this->force = NINJA_WARRIOR_F;
 }
- 
-void Good_Horse_Warrior::getSide() {
-    this->side = GOOD;
+void Ninja_Warrior::usingWeapon(Warrior &enemy) {
+    Stick stick;
+    steak.getDamage();
+    steak.getWeight();
+    enemy.health -= sword.damage;
 }
-void Good_Infantry_Warrior::getSide() {
-    this->side = GOOD;
-}
-void Good_Ninja_Warrior::getSide() {
-    this->side = GOOD;
-}
- 
-void Bad_Horse_Warrior::getSide() {
-    this->side = BAD;
-}
-void Bad_Infantry_Warrior::getSide() {
-    this->side = BAD;
-}
-void Bad_Ninja_Warrior::getSide() {
-    this->side = BAD;
-}
+
