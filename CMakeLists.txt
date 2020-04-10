@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
+
 project(FIRST_CHECPOINT_PATTERN)
 
 set(CMAKE_CXX_STANDART 14)
