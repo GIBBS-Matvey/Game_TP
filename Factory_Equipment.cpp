@@ -1,3 +1,4 @@
+#include "Factory_Equipment.h"
 #ifndef UNIT_TYPE_H
 #define UNIT_TYPE_H
 
