@@ -1,18 +1,29 @@
 #include "Abstract_Factory_Equipment.h"
-#ifndef UNIT_TYPE_H
-#define UNIT_TYPE_H
+#ifndef Factory_Equipment_H
+#define Factory_Equipment_H
 
 class Spear : public Equipment {
-    void getWeight() override;
-    void getDamage() override;
-};
-class Sword : public Equipment {
-    void getWeight() override;
-    void getDamage() override;
-};
-class Stick : public Equipment {
-    void getWeight() override;
-    void getDamage() override;
+public:
+    Spear() {
+        weight = SPEAR_W;
+        damage = SPEAR_D;
+    }
 };
 
-#endif //UNIT_TYPE_H
+class Sword : public Equipment {
+public:
+    Sword() {
+        weight = SWORD_W;
+        damage = SWORD_D;
+    }
+};
+
+class Stick : public Equipment {
+public:
+    Stick() {
+        weight = STICK_W;
+        damage = STICK_D;
+    }
+};
+
+#endif //Factory_Equipment_H
