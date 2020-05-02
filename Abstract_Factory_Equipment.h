@@ -11,8 +11,8 @@ protected:
     int weight;
     int damage;
 public:
-    virtual void getWeight() = 0;
-    virtual void getDamage() = 0;
+    virtual int getWeight() = 0;
+    virtual int getDamage() = 0;
 };
 
 #endif //UNIT_TYPE_H
