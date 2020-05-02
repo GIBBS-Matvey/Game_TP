@@ -3,16 +3,16 @@
 #define UNIT_TYPE_H
 
 class Spear : public Equipment {
-    int getWeight() override;
-    int getDamage() override;
+    void getWeight() override;
+    void getDamage() override;
 };
 class Sword : public Equipment {
-    int getWeight() override;
-    int getDamage() override;
+    void getWeight() override;
+    void getDamage() override;
 };
 class Stick : public Equipment {
-    int getWeight() override;
-    int getDamage() override;
+    void getWeight() override;
+    void getDamage() override;
 };
 
 #endif //UNIT_TYPE_H
