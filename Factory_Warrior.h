@@ -2,31 +2,24 @@
 #ifndef UNIT_TYPE_H
 #define UNIT_TYPE_H
 
+///_Warrior_Class.h
+
 class Horse_Warrior : public Warrior {
 public:
-    int getType() override;
-    int getHealth() override;
-    int getCost() override;
-    int getForce() override;
-    void usingWeapon(Warrior &enemy) override;
-    void SpeedIncrease();
+    Horse_Warrior();
+    void move(const Point &new_point) override;
 };
+
 class Infantry_Warrior : public Warrior {
 public:
-    int getType() override;
-    int getHealth() override;
-    int getCost() override;
-    int getForce() override;
-    void usingWeapon(Warrior &enemy) override;
+    Infantry_Warrior();
+    void move(const Point &new_point) override;
 };
+
 class Ninja_Warrior : public Warrior {
 public:
-    int getType() override;
-    int getHealth() override;
-    int getCost() override;
-    int getForce() override;
-    void usingWeapon(Warrior &enemy) override;
-    void usingMagic();
+    Ninja_Warrior();
+    void move(const Point &new_point) override;
 };
 
 #endif //UNIT_TYPE_H
