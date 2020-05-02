@@ -16,11 +16,11 @@ protected:
     int force;
     int side;
 public:
-    virtual int getType() = 0;
-    virtual int getHealth() = 0;
-    virtual int getCost() = 0;
-    virtual int getForce() = 0;
-    virtual int getSide() = 0;
+    virtual void getType() = 0;
+    virtual void getHealth() = 0;
+    virtual void getCost() = 0;
+    virtual void getForce() = 0;
+    virtual void getSide() = 0;
     virtual void usingWeapon(Warrior &enemy) = 0;
 };
 
