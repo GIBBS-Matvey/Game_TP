@@ -4,27 +4,27 @@
 
 class Horse_Warrior : public Warrior {
 public:
-    int getType() override;
-    int getHealth() override;
-    int getCost() override;
-    int getForce() override;
+    void getType() override;
+    void getHealth() override;
+    void getCost() override;
+    void getForce() override;
     void usingWeapon(Warrior &enemy) override;
     void SpeedIncrease();
 };
 class Infantry_Warrior : public Warrior {
 public:
-    int getType() override;
-    int getHealth() override;
-    int getCost() override;
-    int getForce() override;
+    void getType() override;
+    void getHealth() override;
+    void getCost() override;
+    void getForce() override;
     void usingWeapon(Warrior &enemy) override;
 };
 class Ninja_Warrior : public Warrior {
 public:
-    int getType() override;
-    int getHealth() override;
-    int getCost() override;
-    int getForce() override;
+    void getType() override;
+    void getHealth() override;
+    void getCost() override;
+    void getForce() override;
     void usingWeapon(Warrior &enemy) override;
     void usingMagic();
 };
