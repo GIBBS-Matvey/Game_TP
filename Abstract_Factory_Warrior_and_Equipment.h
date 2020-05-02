@@ -1,5 +1,6 @@
 #ifndef Abstract_Factory_Warrior_H
 #define Abstract_Factory_Warrior_H
+#include "geometry.h"
 #include <string>
 #include <vector>
 
