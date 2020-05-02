@@ -1,4 +1,5 @@
-
+#ifndef GEOMETRY_H
+#define GEOMETRY_H
 
 ///..........geometryClasses...........///
 
@@ -24,3 +25,5 @@ public:
         return pow(pow((p2.x - p1.x), 2) + pow((p2.y - p1.y), 2), 0.5);
     }
 };
+
+#endif//GEOMETRY_H
