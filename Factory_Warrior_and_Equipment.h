@@ -1,6 +1,6 @@
-#include "Abstract_Factory_Warrior.h"
 #ifndef UNIT_TYPE_H
 #define UNIT_TYPE_H
+#include "Abstract_Factory_Warrior.h"
 
 ///..............Warrior_Class.h................///
 
