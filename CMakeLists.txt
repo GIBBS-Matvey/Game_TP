@@ -5,6 +5,6 @@ project(FIRST_CHECPOINT_PATTERN)
 
 set(CMAKE_CXX_STANDART 17)
 
-set(PROJECT_EXE_SOURCE Abstract_Factory_Warrior_and_Equipment.cpp test.cpp)
+set(PROJECT_EXE_SOURCE Abstract_Factory_Warrior_and_Equipment.cpp test.cpp Squad.cpp Player.cpp)
 
 add_executable(PATTERN ${PROJECT_EXE_SOURCE})
