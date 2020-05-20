@@ -375,8 +375,6 @@ int main() {
     Infantry_Warrior i_w;
     Ninja_Warrior n_w;
 
-
-
     Squad littleSquad(4);
     Squad middleSquad(5);
     Squad bigSquad(10);
@@ -386,10 +384,8 @@ int main() {
     littleSquad.addSeveral(NINJA_WARRIOR_TYPE, 2);
 
     middleSquad.addOneComponent(&littleSquad);
-    
-
     littleSquad.description();
-    
-    
+
+
     return 0;
 }
