@@ -1,13 +1,16 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include "cmath"
-const std::string HORSE_WARRIOR_TYPE = "Horse Warrior";
-const std::string INFANTRY_WARRIOR_TYPE = "Infantry Warrior";
-const std::string NINJA_WARRIOR_TYPE = "Ninja Warrior";
-const std::string SPEAR_TYPE = "Spear";
-const std::string SWORD_TYPE = "Sword";
-const std::string STICK_TYPE = "Stick";
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<cmath>
+#include<memory>
+
+
 enum HEALTH{HORSE_WARRIOR_H = 100, INFANTRY_WARRIOR_H = 200, NINJA_WARRIOR_H = 300};
 enum COST{HORSE_WARRIOR_C = 1000, INFANTRY_WARRIOR_C = 800, NINJA_WARRIOR_C = 900};
 enum FORCE{HORSE_WARRIOR_F = 2000, INFANTRY_WARRIOR_F = 1200, NINJA_WARRIOR_F = 1600};
@@ -17,254 +20,213 @@ enum WEIGHT{SPEAR_W = 50, SWORD_W = 35, STICK_W = 10};
 enum DAMAGE{SPEAR_D = 20, SWORD_D = 15, STICK_D = 5};
 
 
+///..........exceptionClasses...........///
+
 
 ///..........geometryClasses...........///
 
 
 class Point {
 private:
-    int64_t x;
-    int64_t y;
+   int x;
+   int y;
+
 public:
-    Point(const int64_t &x, const int64_t &y) : x(x), y(y) {}
-    Point(const Point &point) = default;
-    Point& operator=(const Point &point) = default;
-    friend class Vector;
+   Point(const int &x, const int &y) : x(x), y(y) {}
+
+   Point(const Point &point) = default;
+
+   Point& operator=(const Point &point) = default;
+
+   friend class Vector;
 };
+
 
 class Vector {
 private:
-    Point p1;
-    Point p2;
+   Point p1;
+   Point p2;
 public:
-    Vector(const Point &p1, const Point &p2) : p1(p1), p2(p2) {}
-    int getLength() const {
-        return pow(pow((p2.x - p1.x), 2) + pow((p2.y - p1.y), 2), 0.5);
-    }
+   Vector(const Point &p1, const Point &p2) : p1(p1), p2(p2) {}
+   int getLength() const {
+      return pow(pow((p2.x - p1.x), 2) + pow((p2.y - p1.y), 2), 0.5);
+   }
 };
+
 
 ///..............Abstract_Warrior_Class...............///
 
 
 class Warrior {
 protected:
-    Point position = {0, 0};
-    std::string type;
-    int cost;
-    int force;
-    int health;
-    int force_toll;
-    bool alive = true;
-    class Equipment {
-    public:
-        int weight;
-        int damage;
-        Equipment(const int &w, const int &d) : weight(w), damage(d) {}
-        virtual std::string getType() const = 0;
-    };
-    Equipment* weapon;
+   Point position = {0, 0};
+   std::string type;
+   int cost;
+   int force;
+   int health;
+   int force_toll;
+   bool alive = true;
+   class Equipment {
+   public:
+      int weight;
+      int damage;
+      Equipment(const int &w, const int &d) : weight(w), damage(d) {}
+      virtual std::string getType() const = 0;
+      ~Equipment() = default;
+   };
+   std::unique_ptr<Equipment> weapon_ptr;
+
 public:
-    virtual void description() const;
-    virtual void usingWeapon(Warrior *enemy);
-    virtual void move(const Point &new_point);
-    virtual bool isAlive() = 0;
-    virtual int getForceToll() = 0;
-    virtual std::string getType() = 0;
-    virtual int getCost() = 0;
-    virtual int getForce() = 0;
-    virtual int getHealth() = 0;
+   virtual void description() const;
+   virtual void usingWeapon(Warrior *enemy);
+   virtual void change_position(const Point &new_point);
+   virtual bool isAlive() const = 0;
+   virtual int getForceToll() const= 0;
+   virtual std::string getType() const = 0;
+   virtual int getCost() const = 0;
+   virtual int getForce() const = 0;
+   virtual int getHealth() const = 0;
 };
 
 
 ///..............Warrior_Implementation.h................///
 
+
 class Horse_Warrior : public Warrior {
 private:
-    class Spear : public Equipment {
-    public:
-        Spear() : Equipment(SPEAR_W, SPEAR_D) {}
-        std::string getType() const override {
-            return SPEAR_TYPE;
-        }
-    };
+
+   class Spear : public Equipment {
+   public:
+      explicit Spear(const int &value) : Equipment(value, value) {}
+      Spear() : Equipment(SPEAR_W, SPEAR_D) {}
+      std::string getType() const override {
+         return "Spear";
+      }
+   };
+
 public:
-    Horse_Warrior();
-    bool isAlive() override {return alive;}
-    int getForceToll() override {return force_toll;}
-    std::string getType() override {return type;}
-    int getCost() override {return cost;}
-    int getForce() override {return force;}
-    int getHealth() override {return health;}
+   Horse_Warrior();
+
+   bool isAlive() const override {return alive;}
+
+   int getForceToll() const override {return force_toll;}
+
+   std::string getType() const override {return type;}
+
+   int getCost() const override {return cost;}
+
+   int getForce() const override {return force;}
+
+   int getHealth() const override {return health;}
+
+
 };
 
 
 
 class Infantry_Warrior : public Warrior {
+
 private:
-    class Sword : public Equipment {
-    public:
-        Sword() : Equipment(SWORD_W, SWORD_D) {}
-        std::string getType() const override {
-            return SWORD_TYPE;
-        }
-    };
+   class Sword : public Equipment {
+   public:
+      Sword() : Equipment(SWORD_W, SWORD_D) {}
+      std::string getType() const override {
+         return "Sword";
+      }
+   };
+
 public:
-    Infantry_Warrior();
-    bool isAlive() override {return alive;}
-    int getForceToll() override {return force_toll;}
-    std::string getType() override {return type;}
-    int getCost() override {return cost;}
-    int getForce() override {return force;}
-    int getHealth() override {return health;}
+   Infantry_Warrior();
+
+   bool isAlive() const override {return alive;}
+
+   int getForceToll() const override {return force_toll;}
+
+   std::string getType() const override {return type;}
+
+   int getCost() const override {return cost;}
+
+   int getForce() const override {return force;}
+
+   int getHealth() const override {return health;}
 };
 
 
 class Ninja_Warrior : public Warrior {
+
 private:
-    class Stick : public Equipment {
-    public:
-        Stick() : Equipment(STICK_W, STICK_D) {}
-        std::string getType() const override {
-            return STICK_TYPE;
-        }
-    };
+   class Stick : public Equipment {
+   public:
+      Stick() : Equipment(STICK_W, STICK_D) {}
+      std::string getType() const override {
+         return "Stick";
+      }
+   };
+
 public:
-    Ninja_Warrior();
-    bool isAlive() override {return alive;}
-    int getForceToll() override {return force_toll;}
-    std::string getType() override {return type;}
-    int getCost() override {return cost;}
-    int getForce() override {return force;}
-    int getHealth() override {return health;}
+   Ninja_Warrior();
+
+   bool isAlive() const override {return alive;}
+
+   int getForceToll() const override {return force_toll;}
+
+   std::string getType() const override {return type;}
+
+   int getCost() const override {return cost;}
+
+   int getForce() const override {return force;}
+
+   int getHealth() const override {return health;}
 };
 
 
 ///....................Squad_class_Definition................///
 
 
-class Squad : public Warrior {
+class Squad {
 private:
-    std::vector<Warrior*> v;
-    size_t maxSize = 0;
+   std::vector<Warrior*> v;
+   size_t size = 0;
+   size_t cost = 0;
 public:
-    Squad() = delete;
+   Squad() = delete;
 
-    explicit Squad(const size_t &size) : maxSize(size) {
-        v.reserve(maxSize);
-    }
+   explicit Squad(const int &size) : size(size) {
+      v.reserve(size);
+   }
 
-    void addOneComponent(Warrior *war_ptr);
+   explicit Squad(const int &number, Warrior *first, ...) : size(number) {
+      v.reserve(number);
+      Warrior **ptr = &first;
+      for (int i = 0; i < number; ++i, ++ptr) {
+         v.push_back(*ptr);
+         cost += (*ptr)->getCost();
+      }
+   }
 
-    void addSeveral(const std::string &warriorType, const size_t &number);
+   void description() {
+      for (const auto &w_ptr : v) {
+         w_ptr->description();
+      }
+   }
 
-    bool isAlive() override;
+   void distribute() {
+      std::sort(v.begin(), v.end(), [](const Warrior *left_ptr, const Warrior *right_ptr) {
+         return left_ptr->getHealth() < right_ptr->getHealth();
+      });
+   };
 
-    int getForceToll() override;
+   int getCost() {
+      return cost;
+   }
 
-    std::string getType() override;
+   ~Squad() {
+      for (const auto &elem : v) {
+         delete elem;
+      }
+   }
 
-    int getCost() override;
-
-    int getForce() override;
-
-    int getHealth() override;
-
-    void description() const override;
 };
-
-
-///....................Squad_class_Implementation................///
-
-
-
-
-void Squad::addOneComponent(Warrior *war_ptr) {
-    if (v.size() == maxSize) {
-        std::cout << "Squad is full" << '\n';
-    } else {
-        v.push_back(war_ptr);
-        std::cout << war_ptr->getType() << " added" << '\n';
-    }
-}
-
-void Squad::addSeveral(const std::string &warriorType, const size_t &number) {
-    if (warriorType == HORSE_WARRIOR_TYPE) {
-        for (size_t i = 0; i < number; ++i) {
-            this->addOneComponent(new Horse_Warrior);
-            if (v.size() == maxSize) {
-                return;
-            }
-        }
-    }
-    else if (warriorType == INFANTRY_WARRIOR_TYPE) {
-        for (size_t i = 0; i < number; ++i) {
-            this->addOneComponent(new Infantry_Warrior);
-            if (v.size() == maxSize) {
-                return;
-            }
-        }
-    }
-    else if (warriorType == NINJA_WARRIOR_TYPE) {
-        for (size_t i = 0; i < number; ++i) {
-            this->addOneComponent(new Ninja_Warrior);
-            if (v.size() == maxSize) {
-                return;
-            }
-        }
-    }
-}
-
-bool Squad::isAlive() {
-    for (const auto &elem : v) {
-        if (elem->isAlive()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-int Squad::getForceToll() {
-    int result = 0;
-    for (const auto &elem : v) {
-        result += elem->getForceToll();
-    }
-    return result;
-}
-
-std::string Squad::getType() {
-    return ("It is a squad");
-}
-
-
-int Squad::getCost() {
-    int result = 0;
-    for (const auto &elem : v) {
-        result += elem->getCost();
-    }
-    return result;
-}
-
-int Squad::getForce()  {
-    int result = 0;
-    for (const auto &elem : v) {
-        result += elem->getForce();
-    }
-    return result;
-}
-
-int Squad::getHealth()  {
-    int result = 0;
-    for (const auto &elem : v) {
-        result += elem->getHealth();
-    }
-    return result;
-}
-
-void Squad::description() const {
-    for (const auto &elem : v) {
-        elem->description();
-    }
-}
 
 
 
@@ -273,119 +235,129 @@ void Squad::description() const {
 
 class Player {
 private:
-    int64_t money;
-    std::vector<Warrior*> army;
-    int64_t armyCost = 0;
-public:
-    explicit Player(const int64_t &money) : money(money) {}
+   int money = 0;
+   std::vector<Squad*> army;
+   int armyCost = 0;
+   std::ofstream fout;
+   std::string file_name;
 
-    void BuyWarrior(Warrior *warrior_ptr) {
-        if (money >= warrior_ptr->getCost()) {
-            army.emplace_back(warrior_ptr);
-            money -= army.back()->getCost();
-            armyCost += warrior_ptr->getCost();
-        } else {
-            std::cout << "Not enough money" << std::endl;
-        }
-    }
-    int64_t GetArmyCost() const {
-        return armyCost;
-    }
-    void PrintArmy() {
-        for (Warrior *w_ptr : army) {
-            if (!army.empty()) {
-                std::cout << "Warrior_type is " << w_ptr->getType() << ' ' << std::endl;
-                std::cout << "Health is " << w_ptr->getHealth() << ' ' << std::endl;
-                std::cout << "Force is " << w_ptr->getForce() << ' ' << std::endl;
-                std::cout << std::endl;
-            } else {
-                std::cout << "There is no warriors in your army" << std::endl;
-            }
-        }
-        std::cout << std::endl;
-    }
+   void BuySquad(Squad *squad_ptr) {
+      if (money >= squad_ptr->getCost()) {
+         army.emplace_back(squad_ptr);
+         money -= squad_ptr->getCost();
+      } else {
+         std::cout << "Not enough money" << std::endl;
+      }
+      // TODO
+
+   }
+
+public:
+   explicit Player(const int &money, const std::string &fileName) : money(money), file_name(fileName) {
+      fout.open(fileName);
+      fout << "create " << fileName << std::endl;
+      fout.close();
+   }
+
+   void CreateBigSquad(const int &number, Squad *first, ...) {
+      army.reserve(number);
+      Squad **ptr = &first;
+      for (int i = 0; i < number; ++i, ++ptr) {
+         BuySquad(*ptr);
+      }
+      // TODO
+   }
+
+   void ArmyDescription() const {
+      std::cout << std::endl << "Army description:" << std::endl;
+      for (const auto &sq_ptr : army) {
+         sq_ptr->description();
+      }
+      // TODO
+   }
+
+   ~Player() {
+      for (const auto &sq_ptr : army) {
+         delete sq_ptr;
+      }
+   }
 };
+
 
 
 ///...............definition..................///
 
 
 
-
 void Warrior::description() const {
-    std::cout << type << '\n';
-    std::cout << "Health - " << health << '\n';
-    std::cout << "Forces - " << force << '\n';
-    std::cout << '\n';
+   std::cout << type << '\n';
+   std::cout << "Health - " << health << '\n';
+   std::cout << "Forces - " << force << '\n';
+   std::cout << '\n';
 }
+
 
 void Warrior::usingWeapon(Warrior *enemy) {
-    if (force <= 0) {
-        alive = false;
-    } else {
-        enemy->health -= weapon->damage;
-        force -= force_toll;
-    }
+   if (force <= 0) {
+      alive = false;
+   } else {
+      enemy->health -= weapon_ptr->damage;
+      force -= force_toll;
+   }
 }
 
-void Warrior::move(const Point &new_point) {
-    if (this->force <= 0) {
-        this->alive = false;
-    } else {
-        position = new_point;
-        force -= force_toll * Vector({0, 0}, new_point).getLength();
-    }
+
+void Warrior::change_position(const Point &new_point) {
+   if (this->force <= 0) {
+      this->alive = false;
+   } else {
+      position = new_point;
+      force -= force_toll * Vector({0, 0}, new_point).getLength();
+   }
 }
+
 
 Horse_Warrior::Horse_Warrior() {
-    type = HORSE_WARRIOR_TYPE;
-    health = HORSE_WARRIOR_H;
-    cost = HORSE_WARRIOR_C;
-    force = HORSE_WARRIOR_F;
-    force_toll = HORSE_WARRIOR_F_T;
-    this->weapon = new Spear;
+   type = "Horse Warrior";
+   health = HORSE_WARRIOR_H;
+   cost = HORSE_WARRIOR_C;
+   force = HORSE_WARRIOR_F;
+   force_toll = HORSE_WARRIOR_F_T;
+   weapon_ptr = std::make_unique<Spear>();
 }
 
+
 Infantry_Warrior::Infantry_Warrior() {
-    type = INFANTRY_WARRIOR_TYPE;
-    health = INFANTRY_WARRIOR_H;
-    cost = INFANTRY_WARRIOR_C;
-    force = INFANTRY_WARRIOR_F;
-    force_toll = INFANTRY_WARRIOR_F_T;
-    this->weapon = new Sword;
+   type = "Infantry Warrior";
+   health = INFANTRY_WARRIOR_H;
+   cost = INFANTRY_WARRIOR_C;
+   force = INFANTRY_WARRIOR_F;
+   force_toll = INFANTRY_WARRIOR_F_T;
+   weapon_ptr = std::make_unique<Sword>();
 }
 
 
 Ninja_Warrior::Ninja_Warrior() {
-    type = NINJA_WARRIOR_TYPE;
-    health = NINJA_WARRIOR_H;
-    cost = NINJA_WARRIOR_C;
-    force = NINJA_WARRIOR_F;
-    force_toll = NINJA_WARRIOR_F_T;
-    this->weapon = new Stick;
+   type = "Ninja Warrior";
+   health = NINJA_WARRIOR_H;
+   cost = NINJA_WARRIOR_C;
+   force = NINJA_WARRIOR_F;
+   force_toll = NINJA_WARRIOR_F_T;
+   weapon_ptr = std::make_unique<Stick>();
 }
-
-
 
 ///................main.................///
 
 
 int main() {
-    Horse_Warrior h_w;
-    Infantry_Warrior i_w;
-    Ninja_Warrior n_w;
+   {
+      Player me(50000, "file.txt");
+      me.CreateBigSquad(3, new Squad(2, new Horse_Warrior, new Infantry_Warrior),
+                        new Squad(2, new Infantry_Warrior, new Ninja_Warrior),
+                        new Squad(2, new Ninja_Warrior, new Horse_Warrior));
+      me.ArmyDescription();
+   }
 
-    Squad littleSquad(4);
-    Squad middleSquad(5);
-    Squad bigSquad(10);
-
-    littleSquad.addOneComponent(new Horse_Warrior);
-    littleSquad.addSeveral(INFANTRY_WARRIOR_TYPE, 3);
-    littleSquad.addSeveral(NINJA_WARRIOR_TYPE, 2);
-
-    middleSquad.addOneComponent(&littleSquad);
-    littleSquad.description();
-
-
-    return 0;
+   std::cout << "valgrind checking - "<< _CrtDumpMemoryLeaks();
+   return 0;
 }
