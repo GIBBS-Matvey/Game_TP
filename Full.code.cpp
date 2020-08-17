@@ -7,7 +7,6 @@
 #include<vector>
 #include<algorithm>
 #include<cmath>
-#include<memory>
 
 using namespace std::chrono;
 
@@ -29,29 +28,29 @@ enum DAMAGE{SPEAR_D = 20, SWORD_D = 15, STICK_D = 5};
 
 class Point {
 private:
-   int x;
-   int y;
+    int x;
+    int y;
 
 public:
-   Point(const int &x, const int &y) : x(x), y(y) {}
+    Point(const int &x, const int &y) : x(x), y(y) {}
 
-   Point(const Point &point) = default;
+    Point(const Point &point) = default;
 
-   Point& operator=(const Point &point) = default;
+    Point& operator=(const Point &point) = default;
 
-   friend class Vector;
+    friend class Vector;
 };
 
 
 class Vector {
 private:
-   Point p1;
-   Point p2;
+    Point p1;
+    Point p2;
 public:
-   Vector(const Point &p1, const Point &p2) : p1(p1), p2(p2) {}
-   int getLength() const {
-      return pow(pow((p2.x - p1.x), 2) + pow((p2.y - p1.y), 2), 0.5);
-   }
+    Vector(const Point &p1, const Point &p2) : p1(p1), p2(p2) {}
+    int getLength() const {
+        return pow(pow((p2.x - p1.x), 2) + pow((p2.y - p1.y), 2), 0.5);
+    }
 };
 
 
@@ -60,55 +59,55 @@ public:
 
 class Warrior {
 protected:
-   Point position = {0, 0};
+    Point position = {0, 0};
 
-   std::string type;
+    std::string type;
 
-   int cost;
+    int cost;
 
-   int force;
+    int force;
 
-   int health;
+    int health;
 
-   int force_toll;
+    int force_toll;
 
-   bool alive = true;
+    bool alive = true;
 
-   class Equipment {
-   public:
-      int weight;
-      int damage;
-      Equipment(const int &w, const int &d) : weight(w), damage(d) {}
-      virtual std::string getType() const = 0;
-      virtual ~Equipment() = default;
-   };
+    class Equipment {
+    public:
+        int weight;
+        int damage;
+        Equipment(const int &w, const int &d) : weight(w), damage(d) {}
+        virtual std::string getType() const = 0;
+        virtual ~Equipment() = default;
+    };
 
-   Equipment* weapon_ptr = nullptr;
+    Equipment* weapon_ptr = nullptr;
 
 public:
-   virtual void description() const;
+    virtual void description() const;
 
-   virtual void usingWeapon(Warrior *enemy_ptr);
+    virtual void usingWeapon(Warrior *enemy_ptr);
 
-   virtual bool fight(Warrior *enemy_ptr);
+    virtual bool fight(Warrior *enemy_ptr);
 
-   virtual void change_position(const Point &new_point);
+    virtual void change_position(const Point &new_point);
 
-   virtual bool isAlive() const = 0;
+    virtual bool isAlive() const = 0;
 
-   virtual int getForceToll() const= 0;
+    virtual int getForceToll() const= 0;
 
-   virtual std::string getType() const = 0;
+    virtual std::string getType() const = 0;
 
-   virtual int getCost() const = 0;
+    virtual int getCost() const = 0;
 
-   virtual int getForce() const = 0;
+    virtual int getForce() const = 0;
 
-   virtual int getHealth() const = 0;
+    virtual int getHealth() const = 0;
 
-   virtual ~Warrior() {
-      delete weapon_ptr;
-   }
+    virtual ~Warrior() {
+        delete weapon_ptr;
+    }
 
 };
 
@@ -119,29 +118,29 @@ public:
 class Horse_Warrior : public Warrior {
 private:
 
-   class Spear : public Equipment {
-   public:
-      explicit Spear(const int &value) : Equipment(value, value) {}
-      Spear() : Equipment(SPEAR_W, SPEAR_D) {}
-      std::string getType() const override {
-         return "Spear";
-      }
-   };
+    class Spear : public Equipment {
+    public:
+        explicit Spear(const int &value) : Equipment(value, value) {}
+        Spear() : Equipment(SPEAR_W, SPEAR_D) {}
+        std::string getType() const override {
+            return "Spear";
+        }
+    };
 
 public:
-   Horse_Warrior();
+    Horse_Warrior();
 
-   bool isAlive() const override {return alive;}
+    bool isAlive() const override {return alive;}
 
-   int getForceToll() const override {return force_toll;}
+    int getForceToll() const override {return force_toll;}
 
-   std::string getType() const override {return type;}
+    std::string getType() const override {return type;}
 
-   int getCost() const override {return cost;}
+    int getCost() const override {return cost;}
 
-   int getForce() const override {return force;}
+    int getForce() const override {return force;}
 
-   int getHealth() const override {return health;}
+    int getHealth() const override {return health;}
 
 };
 
@@ -150,28 +149,28 @@ public:
 class Infantry_Warrior : public Warrior {
 
 private:
-   class Sword : public Equipment {
-   public:
-      Sword() : Equipment(SWORD_W, SWORD_D) {}
-      std::string getType() const override {
-         return "Sword";
-      }
-   };
+    class Sword : public Equipment {
+    public:
+        Sword() : Equipment(SWORD_W, SWORD_D) {}
+        std::string getType() const override {
+            return "Sword";
+        }
+    };
 
 public:
-   Infantry_Warrior();
+    Infantry_Warrior();
 
-   bool isAlive() const override {return alive;}
+    bool isAlive() const override {return alive;}
 
-   int getForceToll() const override {return force_toll;}
+    int getForceToll() const override {return force_toll;}
 
-   std::string getType() const override {return type;}
+    std::string getType() const override {return type;}
 
-   int getCost() const override {return cost;}
+    int getCost() const override {return cost;}
 
-   int getForce() const override {return force;}
+    int getForce() const override {return force;}
 
-   int getHealth() const override {return health;}
+    int getHealth() const override {return health;}
 
 };
 
@@ -179,28 +178,28 @@ public:
 class Ninja_Warrior : public Warrior {
 
 private:
-   class Stick : public Equipment {
-   public:
-      Stick() : Equipment(STICK_W, STICK_D) {}
-      std::string getType() const override {
-         return "Stick";
-      }
-   };
+    class Stick : public Equipment {
+    public:
+        Stick() : Equipment(STICK_W, STICK_D) {}
+        std::string getType() const override {
+            return "Stick";
+        }
+    };
 
 public:
-   Ninja_Warrior();
+    Ninja_Warrior();
 
-   bool isAlive() const override {return alive;}
+    bool isAlive() const override {return alive;}
 
-   int getForceToll() const override {return force_toll;}
+    int getForceToll() const override {return force_toll;}
 
-   std::string getType() const override {return type;}
+    std::string getType() const override {return type;}
 
-   int getCost() const override {return cost;}
+    int getCost() const override {return cost;}
 
-   int getForce() const override {return force;}
+    int getForce() const override {return force;}
 
-   int getHealth() const override {return health;}
+    int getHealth() const override {return health;}
 };
 
 
@@ -209,54 +208,54 @@ public:
 
 class Squad {
 private:
-   std::vector<Warrior*> v;
-   size_t size = 0;
-   size_t cost = 0;
+    std::vector<Warrior*> v;
+    size_t size = 0;
+    size_t cost = 0;
 public:
-   Squad() = delete;
+    Squad() = delete;
 
-   explicit Squad(const int &size) : size(size) {
-      v.reserve(size);
-   }
+    explicit Squad(const int &size) : size(size) {
+        v.reserve(size);
+    }
 
-   Squad(const Squad &other) = delete;
+    Squad(const Squad &other) = delete;
 
-   Squad(Squad &&other) noexcept {
-      size = other.size;
-      cost = other.cost;
-      v = std::move(other.v);
-   }
+    Squad(Squad &&other) noexcept {
+        size = other.size;
+        cost = other.cost;
+        v = std::move(other.v);
+    }
 
-   explicit Squad(const int &number, Warrior *first, ...) : size(number) {
-      v.reserve(number);
-      Warrior **ptr = &first;
-      for (int i = 0; i < number; ++i, ++ptr) {
-         v.push_back(*ptr);
-         cost += (*ptr)->getCost();
-      }
-   }
+    explicit Squad(const int &number, Warrior *first, ...) : size(number) {
+        v.reserve(number);
+        Warrior **ptr = &first;
+        for (int i = 0; i < number; ++i, ++ptr) {
+            v.push_back(*ptr);
+            cost += (*ptr)->getCost();
+        }
+    }
 
-   void description() const {
-      for (const auto &w_ptr : v) {
-         w_ptr->description();
-      }
-   }
+    void description() const {
+        for (const auto &w_ptr : v) {
+            w_ptr->description();
+        }
+    }
 
-   void distribute() {
-      std::sort(v.begin(), v.end(), [](const Warrior *left_ptr, const Warrior *right_ptr) {
-         return left_ptr->getHealth() < right_ptr->getHealth();
-      });
-   };
+    void distribute() {
+        std::sort(v.begin(), v.end(), [](const Warrior *left_ptr, const Warrior *right_ptr) {
+            return left_ptr->getHealth() < right_ptr->getHealth();
+        });
+    };
 
-   int getCost() const {
-      return cost;
-   }
+    int getCost() const {
+        return cost;
+    }
 
-   ~Squad() {
-      for (const auto &elem : v) {
-         delete elem;
-      }
-   }
+    ~Squad() {
+        for (const auto &elem : v) {
+            delete elem;
+        }
+    }
 
 };
 
@@ -267,55 +266,56 @@ public:
 
 class Player {
 private:
-   int money = 0;
-   std::vector<Squad> army;
-   int armyCost = 0;
-   std::ofstream fout;
-   std::string file_name;
-
-   void BuySquad(Squad &squad_ptr) {
-      if (money >= squad_ptr.getCost()) {
-         army.push_back(std::move(squad_ptr));
-         money -= army.back().getCost();
-      } else {
-         std::cout << "Not enough money" << std::endl;
-      }
-   }
+    int money = 0;
+    std::vector<Squad> army;
+    int armyCost = 0;
+    std::ofstream fout;
+    std::string file_name;
 
 public:
-   explicit Player(const int &money, const std::string &fileName) : money(money), file_name(fileName) {
-      fout.open(fileName);
-      fout << "create " << fileName << std::endl;
-      fout.close();
-   }
+    explicit Player(const int &money, const std::string &fileName) : money(money), file_name(fileName) {
+        fout.open(fileName);
+        fout << "create " << fileName << std::endl;
+        fout.close();
+    }
 
-   void CreateBigSquad(const int &number, Squad &&first, ...) {
-      army.reserve(number);
-      Squad *ptr = &first;
-      for (int i = 0; i < number; ++i, ++ptr) {
-         BuySquad(*ptr);
-      }
-   }
+    void ReserveSquadNumber(const int& number) {
+        army.reserve(number);
+    }
 
-   void ArmyDescription() const {
-      std::cout << std::endl << "Army description:" << std::endl;
-      for (const auto &squad : army) {
-         squad.description();
-      }
-   }
+    void BuySquad(Squad &&squad) {
+        if (money >= squad.getCost()) {
+            army.push_back(std::move(squad));
+            money -= army.back().getCost();
+        } else {
+            std::cout << "Not enough money" << std::endl;
+        }
+    }
 
-   void Distribute() {
-      for (auto &squad : army) {
-         squad.distribute();
-      }
-   }
+    void addSquad(Squad *sq_ptr) {
+        BuySquad(std::move(*sq_ptr));
+        delete sq_ptr;
+    }
 
-   void Fight(Player &other) {
+    void ArmyDescription() const {
+        std::cout << std::endl << "Army description:" << std::endl;
+        for (const auto &squad : army) {
+            squad.description();
+        }
+    }
 
-      // TODO ("Async" squads distribution)
-   }
+    void Distribute() {
+        for (auto &squad : army) {
+            squad.distribute();
+        }
+    }
 
-   ~Player() = default;
+    void Fight(Player &other) {
+
+        // TODO ("Async" squads distribution)
+    }
+
+    ~Player() = default;
 };
 
 
@@ -325,71 +325,71 @@ public:
 
 
 void Warrior::description() const {
-   std::cout << type << '\n';
-   std::cout << "Health - " << health << '\n';
-   std::cout << "Forces - " << force << '\n';
-   std::cout << '\n';
+    std::cout << type << '\n';
+    std::cout << "Health - " << health << '\n';
+    std::cout << "Forces - " << force << '\n';
+    std::cout << '\n';
 }
 
 
 void Warrior::usingWeapon(Warrior *enemy_ptr) {
-   if (force <= 0) {
-      alive = false;
-   } else {
-      enemy_ptr->health -= weapon_ptr->damage;
-      force -= force_toll;
-   }
+    if (force <= 0) {
+        alive = false;
+    } else {
+        enemy_ptr->health -= weapon_ptr->damage;
+        force -= force_toll;
+    }
 }
 
 
 bool Warrior::fight(Warrior *enemy_ptr) {
-   while (this->isAlive() && enemy_ptr->isAlive()) {
-      this->usingWeapon(enemy_ptr);
-      system("pause");
-      enemy_ptr->usingWeapon(this);
-      system("pause");
-   }
-   return this->isAlive();
+    while (this->isAlive() && enemy_ptr->isAlive()) {
+        this->usingWeapon(enemy_ptr);
+        system("pause");
+        enemy_ptr->usingWeapon(this);
+        system("pause");
+    }
+    return this->isAlive();
 }
 
 
 void Warrior::change_position(const Point &new_point) {
-   if (this->force <= 0) {
-      this->alive = false;
-   } else {
-      position = new_point;
-      force -= force_toll * Vector({0, 0}, new_point).getLength();
-   }
+    if (this->force <= 0) {
+        this->alive = false;
+    } else {
+        position = new_point;
+        force -= force_toll * Vector({0, 0}, new_point).getLength();
+    }
 }
 
 
 Horse_Warrior::Horse_Warrior() {
-   type = "Horse Warrior";
-   health = HORSE_WARRIOR_H;
-   cost = HORSE_WARRIOR_C;
-   force = HORSE_WARRIOR_F;
-   force_toll = HORSE_WARRIOR_F_T;
-   weapon_ptr = new Spear;
+    type = "Horse Warrior";
+    health = HORSE_WARRIOR_H;
+    cost = HORSE_WARRIOR_C;
+    force = HORSE_WARRIOR_F;
+    force_toll = HORSE_WARRIOR_F_T;
+    weapon_ptr = new Spear;
 }
 
 
 Infantry_Warrior::Infantry_Warrior() {
-   type = "Infantry Warrior";
-   health = INFANTRY_WARRIOR_H;
-   cost = INFANTRY_WARRIOR_C;
-   force = INFANTRY_WARRIOR_F;
-   force_toll = INFANTRY_WARRIOR_F_T;
-   weapon_ptr = new Sword;
+    type = "Infantry Warrior";
+    health = INFANTRY_WARRIOR_H;
+    cost = INFANTRY_WARRIOR_C;
+    force = INFANTRY_WARRIOR_F;
+    force_toll = INFANTRY_WARRIOR_F_T;
+    weapon_ptr = new Sword;
 }
 
 
 Ninja_Warrior::Ninja_Warrior() {
-   type = "Ninja Warrior";
-   health = NINJA_WARRIOR_H;
-   cost = NINJA_WARRIOR_C;
-   force = NINJA_WARRIOR_F;
-   force_toll = NINJA_WARRIOR_F_T;
-   weapon_ptr = new Stick;
+    type = "Ninja Warrior";
+    health = NINJA_WARRIOR_H;
+    cost = NINJA_WARRIOR_C;
+    force = NINJA_WARRIOR_F;
+    force_toll = NINJA_WARRIOR_F_T;
+    weapon_ptr = new Stick;
 }
 
 
@@ -400,48 +400,35 @@ Ninja_Warrior::Ninja_Warrior() {
 
 class LogDuration {
 private:
-   std::string message;
-   steady_clock::time_point start;
+    std::string message;
+    steady_clock::time_point start;
 public:
-   explicit LogDuration(std::string&& str) : message(std::move(str) + ": "), start(steady_clock::now()) {}
-   ~LogDuration() {
-      auto finish = steady_clock::now();
-      auto dur = finish - start;
-      std::cout << message << duration_cast<milliseconds>(dur).count() << "ms" << std::endl;
-   }
+    explicit LogDuration(std::string&& str) : message(std::move(str) + ": "), start(steady_clock::now()) {}
+    ~LogDuration() {
+        auto finish = steady_clock::now();
+        auto dur = finish - start;
+        std::cout << message << duration_cast<milliseconds>(dur).count() << "ms" << std::endl;
+    }
 };
 
-/*void func(std::vector<std::string> &v, const size_t &size, std::string &&first, ...) {
-   std::string *ptr = &first;
-   for (size_t i = 0; i < size; ++i, ++ptr) {
-      v.push_back(std::move(*ptr));
-   }
-}*/
-
 int main() {
-   /*{
-      LogDuration l("Creating BigSquad");
-      Player me(50000, "file.txt");
-      me.CreateBigSquad(3, Squad(2, new Horse_Warrior, new Infantry_Warrior),
-                        Squad(2, new Infantry_Warrior, new Ninja_Warrior),
-                        Squad(2, new Ninja_Warrior, new Horse_Warrior));
-   }*/
 
-   {
-      std::vector<Squad> v;
-      v.reserve(3);
-      Squad sq1(2, new Horse_Warrior, new Infantry_Warrior);
-      Squad sq2(2, new Infantry_Warrior, new Ninja_Warrior);
-      Squad sq3(2, new Ninja_Warrior, new Horse_Warrior);
-      v.push_back(std::move(sq1));
-      v.push_back(std::move(sq2));
-      v.push_back(std::move(sq3));
-      for (const auto &sq : v) {
-         sq.description();
-      }
-   }
+    {
+        LogDuration l("creating player");
+        Player me(50000, "my_file");
+        me.ReserveSquadNumber(3);
+        me.BuySquad(Squad(2, new Horse_Warrior, new Infantry_Warrior));
+        me.BuySquad(Squad(2, new Infantry_Warrior, new Ninja_Warrior));
+        me.BuySquad(Squad(2, new Ninja_Warrior, new Horse_Warrior));
+        me.ArmyDescription();
+    }
 
+    {
+        Player he(50000, "his_file");
+        he.addSquad(new Squad(2, new Horse_Warrior, new Infantry_Warrior));
+        he.ArmyDescription();
+    }
 
-   std::cout << "valgrind checking is "<< _CrtDumpMemoryLeaks();
-   return 0;
+    std::cout << "valgrind checking is "<< _CrtDumpMemoryLeaks();
+    return 0;
 }
