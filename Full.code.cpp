@@ -141,7 +141,6 @@ public:
     int getForce() const override {return force;}
 
     int getHealth() const override {return health;}
-
 };
 
 
@@ -171,7 +170,6 @@ public:
     int getForce() const override {return force;}
 
     int getHealth() const override {return health;}
-
 };
 
 
@@ -272,6 +270,15 @@ private:
     std::ofstream fout;
     std::string file_name;
 
+    void addSquad(Squad &&squad) {
+        if (money >= squad.getCost()) {
+            army.push_back(std::move(squad));
+            money -= army.back().getCost();
+        } else {
+            std::cout << "Not enough money" << std::endl;
+        }
+    }
+
 public:
     explicit Player(const int &money, const std::string &fileName) : money(money), file_name(fileName) {
         fout.open(fileName);
@@ -283,17 +290,8 @@ public:
         army.reserve(number);
     }
 
-    void BuySquad(Squad &&squad) {
-        if (money >= squad.getCost()) {
-            army.push_back(std::move(squad));
-            money -= army.back().getCost();
-        } else {
-            std::cout << "Not enough money" << std::endl;
-        }
-    }
-
-    void addSquad(Squad *sq_ptr) {
-        BuySquad(std::move(*sq_ptr));
+    void BuySquad(Squad *sq_ptr) {
+        addSquad(std::move(*sq_ptr));
         delete sq_ptr;
     }
 
@@ -413,7 +411,7 @@ public:
 
 int main() {
 
-    {
+    /*{
         LogDuration l("creating player");
         Player me(50000, "my_file");
         me.ReserveSquadNumber(3);
@@ -421,11 +419,12 @@ int main() {
         me.BuySquad(Squad(2, new Infantry_Warrior, new Ninja_Warrior));
         me.BuySquad(Squad(2, new Ninja_Warrior, new Horse_Warrior));
         me.ArmyDescription();
-    }
+    }*/
 
     {
+        LogDuration l("creating player");
         Player he(50000, "his_file");
-        he.addSquad(new Squad(2, new Horse_Warrior, new Infantry_Warrior));
+        he.BuySquad(new Squad(2, new Horse_Warrior, new Infantry_Warrior));
         he.ArmyDescription();
     }
 
